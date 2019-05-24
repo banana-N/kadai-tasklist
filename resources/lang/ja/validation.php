@@ -117,9 +117,8 @@ return [
     */
 
     'attributes' => [
-        'title' => 'タイトル',
-        'content' => '内容',
-        'date' => '日付',
+        'status' => 'ステータス',
+        'content' => 'タスク',
     ],
 
 ];
