@@ -9,8 +9,14 @@
             {!! Form::model($task, ['route' => 'tasks.store']) !!}
             
            <div class="form-group">
-                {!! Form::label('status', 'ステータス:') !!}
-                {!! Form::text('status', null, ['class' => 'form-control']) !!}
+                {{ Form::label('status', 'ステータス:') }}
+                <!--{!! Form::text('status', 'この引数はvalue', ['class' => 'form-control']) !!}-->
+                {{ Form::select('status',[
+                    '未着手' => '未着手',
+                    '作業中' => '作業中',
+                    '提出済み' => '提出済み',
+                    '完了' => '完了'
+                    ],'ここはデフォルトにしたいvalueを指定', ['class' => 'form-control','placeholder' => '選択してください']) }}
             </div>
         
             <div class="form-group">
