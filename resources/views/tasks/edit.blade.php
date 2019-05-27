@@ -16,7 +16,7 @@
                     '作業中' => '作業中',
                     '提出済み' => '提出済み',
                     '完了' => '完了'
-                    ],'ここはデフォルトにしたいvalueを指定', ['class' => 'form-control','placeholder' => '選択してください']) }}
+                    ],'ここはvalueを指定', ['class' => 'form-control','placeholder' => '選択してください']) }}
             </div>
             <div class="form-group">
                 {!! Form::label('content', 'タスク:') !!}
