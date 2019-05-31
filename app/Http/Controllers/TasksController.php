@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Task;
 
@@ -14,12 +12,42 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $tasks = Task::orderBy('id', 'asc')->paginate(10);
+        $data = [];
+        if(\Auth::check()){
+            $user = \Auth::user();
+            // $tasks = Task::orderBy('id', 'asc')->paginate(10);
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+            
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+        }
         
-        return view('tasks.index', [
-           'tasks' => $tasks, 
-        ]);
+        return view('welcome', $data);
+        
+        // $tasks = Task::orderBy('id', 'asc')->paginate(10);
+        // return view('tasks.index', [
+        //   'tasks' => $tasks, 
+        // ]);
     }
+    
+    //  public function index()
+    // {
+    //     $data = [];
+    //     if(\Auth::check()){
+    //         $user = \Auth::user();
+    //         $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+            
+    //         $data = [
+    //             'user' => $user,
+    //             'microposts' => $microposts,
+    //         ];
+    //     }
+        
+    //     return view('welcome', $data);
+        
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -48,13 +76,43 @@ class TasksController extends Controller
             'content' => 'required|max:191',
         ]);
 
-        $task = new Task;
-        $task->status = $request->status;
-        $task->content = $request->content;
-        $task->save();
-
-        return redirect('/');
+        // $task = new Task;
+        // $task->status = $request->status;
+        // $task->content = $request->content;
+        // $task->save();
+        
+        // Task::create([
+        //     'status'=>$request['status'],
+        //     'content'=>$request['content'],
+        //     'user_id'=> auth()->id()
+        // ]);
+        // return back();
+        // return view('tasks.index');
+        
+        
+        $request->user()->tasks()->create([
+            'status' => $request->status,
+            'content' => $request->content,
+        ]);
+        
+        // return back();
+        
+        $data = [];
+        if(\Auth::check()){
+            $user = \Auth::user();
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+            
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+            
+        }
+        return view('/welcome', $data);
     }
+    
+    
+    
 
     /**
      * Display the specified resource.
@@ -116,9 +174,26 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = Task::find($id);
-        $task->delete();
+        // $task = Task::find($id);
         
+        $task = \App\Task::find($id);
+        
+        if(\Auth::id() === $task->user_id){
+            $task->delete();
+        }
+        
+        // $data = [];
+        // if(\Auth::check()){
+        //     $user = \Auth::user();
+        //     $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+            
+        //     $data = [
+        //         'user' => $user,
+        //         'tasks' => $tasks,
+        //     ];
+        // }
+        // return back();
         return redirect('/');
+        // return view('welcome', $data);
     }
 }
