@@ -13,6 +13,7 @@
             <!--        </div>-->
             <!--    </div>-->
             <!--</aside>-->
+            <h1>タスク一覧</h1>
             <div class="col-sm-8">
                 @if (count($tasks) > 0)
                     @include('tasks.index', ['tasks' => $tasks])
