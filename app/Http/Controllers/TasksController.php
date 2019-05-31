@@ -108,7 +108,8 @@ class TasksController extends Controller
             ];
             
         }
-        return view('/welcome', $data);
+        // return view('/welcome', $data);
+        return redirect('/');
     }
     
     
